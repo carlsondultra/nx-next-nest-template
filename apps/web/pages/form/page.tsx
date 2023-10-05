@@ -1,9 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
 import { useForm, DefaultValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Reset from "./reset";
+import { supabase } from './supabaseClient'
+import UserCard from "./userCard";
 
 //adding constraints to schema
 const SignupSchema = yup.object().shape({
@@ -39,14 +40,45 @@ export default function App() {
   });
   const onSubmit = (data) => {
     alert(JSON.stringify(data));
+    console.log(data)
   };
+
+  const [ fname, setFName ] = useState("");
+  const [ lname, setLName ] = useState("");
+  const [ age, setAge ] = useState("");
+  const [ website, setWebsite ] = useState("");
+  const [ users, setUsers ] = useState([]);
+
+  console.log(fname)
+
+  useEffect(() => {
+    getUsers();
+  }, [])
+
+  async function getUsers() {
+    try {
+        const { data, error } = await supabase
+        // retrieving 10 users from users table
+        .from("users")
+        .select("*")
+        .limit(10)
+        if (error) throw error;
+        if (data != null) {
+            setUsers(data);
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+  }
+
+  console.log(users)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <h1>Example Form</h1>
+        <h1>Patient Form</h1>
         <label>First Name</label>
-        <input {...register("firstName")} />
+        <input {...register("firstName")} onChange={(e) => setFName(e.target.value)}/>
         {errors.firstName && <p>{errors.firstName.message}</p>}
       </div>
       <div style={{ marginBottom: 10 }}>
@@ -66,6 +98,12 @@ export default function App() {
       </div>
       <Reset {...{ reset }} />
       <input type="submit" />
+      <div>
+        {users.map((user) => (
+            // <p>First User</p>
+            <UserCard user={user} />
+        ))}
+      </div>
     </form>
   );
 }
