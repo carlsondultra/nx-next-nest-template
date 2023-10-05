@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useForm } from "react-hook-form";
+import { useForm, DefaultValues } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Reset from "./reset";
 
+//adding constraints to schema
 const SignupSchema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
@@ -11,12 +13,28 @@ const SignupSchema = yup.object().shape({
   website: yup.string().url()
 });
 
+//creating values for resetting form
+export type FormValues = {
+    firstName: string;
+    lastName: string;
+    age: number;
+    website: string;
+  };
+
+export const defaultValues: DefaultValues<FormValues> = {
+    firstName: "",
+    lastName: "",
+    age: 0,
+    website: ""
+  };
+
 export default function App() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormValues>({
     resolver: yupResolver(SignupSchema)
   });
   const onSubmit = (data) => {
@@ -26,6 +44,7 @@ export default function App() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
+        <h1>Example Form</h1>
         <label>First Name</label>
         <input {...register("firstName")} />
         {errors.firstName && <p>{errors.firstName.message}</p>}
@@ -45,6 +64,7 @@ export default function App() {
         <input {...register("website")} />
         {errors.website && <p>{errors.website.message}</p>}
       </div>
+      <Reset {...{ reset }} />
       <input type="submit" />
     </form>
   );
