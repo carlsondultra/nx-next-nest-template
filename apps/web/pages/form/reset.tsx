@@ -14,6 +14,5 @@ export default ({ reset }: { reset: UseFormReset<FormValues> }) => (
     >
       Reset Form
     </button>
-    <button className="button">submit</button>
   </>
 );
