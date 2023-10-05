@@ -13,11 +13,12 @@ export function Index() {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome web 👋
+              Welcome to the frontend! 👋
             </h1>
+            <a href="/form/page">Click here to visit the new page!</a>
           </div>
 
-          <div id="hero" className="rounded">
+          {/* <div id="hero" className="rounded">
             <div className="text-container">
               <h2>
                 <svg
@@ -405,7 +406,8 @@ export function Index() {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-          </p>
+          </p> */}
+
         </div>
       </div>
     </div>
