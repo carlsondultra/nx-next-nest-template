@@ -45,7 +45,7 @@ export default function App() {
 
   const [ fname, setFName ] = useState("");
   const [ lname, setLName ] = useState("");
-  const [ age, setAge ] = useState("");
+  const [ age, setAge ] = useState(0);
   const [ website, setWebsite ] = useState("");
   const [ users, setUsers ] = useState([]);
 
@@ -73,6 +73,25 @@ export default function App() {
 
   console.log(users)
 
+  async function createUser() {
+    try {
+        const { data, error } = await supabase
+        // inserting into users table
+        .from("users")
+        .insert({
+            fname: fname,
+            lname: lname,
+            age: age,
+            website: website
+        })
+        .single() //inserting only 1 user
+        if (error) throw error;
+        window.location.reload() //reload page once user has been created
+    } catch (error) {
+        alert(error.message);
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
@@ -83,20 +102,21 @@ export default function App() {
       </div>
       <div style={{ marginBottom: 10 }}>
         <label>Last Name</label>
-        <input {...register("lastName")} />
+        <input {...register("lastName")} onChange={(e) => setLName(e.target.value)} />
         {errors.lastName && <p>{errors.lastName.message}</p>}
       </div>
       <div>
         <label>Age</label>
-        <input type="number" {...register("age", { valueAsNumber: true })} />
+        <input type="number" onChange={(e) => setLName(e.target.value)} {...register("age", { valueAsNumber: true })} />
         {errors.age && <p>{errors.age.message}</p>}
       </div>
       <div>
         <label>Website (example: https://www.google.ca)</label>
-        <input {...register("website")} />
+        <input {...register("website")} onChange={(e) => setLName(e.target.value)} />
         {errors.website && <p>{errors.website.message}</p>}
       </div>
       <Reset {...{ reset }} />
+      <button onClick={() => createUser()}>Create Users in Supabase DB</button>
       <input type="submit" />
       <div>
         {users.map((user) => (
