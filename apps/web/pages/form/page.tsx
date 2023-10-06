@@ -37,7 +37,7 @@ export default function App() {
         formState: { errors }
     } = useForm<FormValues>({
         mode: 'all', // THIS WILL ALLOW ALL-TIME VALIDATION (May have performance impact)
-        resolver: yupResolver(SignupSchema)
+        resolver: yupResolver<yup.AnyObjectSchema>(SignupSchema)
     });
     const onSubmit = (data) => {
         alert(JSON.stringify(data));
