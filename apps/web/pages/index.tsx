@@ -1,4 +1,5 @@
 import styles from './index.module.scss';
+import App from './form/page';
 
 export function Index() {
   /*
@@ -13,10 +14,11 @@ export function Index() {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome to the frontend! 👋
+              Welcome to the application! 👋
             </h1>
-            <a href="/form/page">Click here to visit the new page!</a>
+            {/* <a href="/form/page">Click here to visit the new page!</a> */}
           </div>
+          <App />
 
           {/* <div id="hero" className="rounded">
             <div className="text-container">
