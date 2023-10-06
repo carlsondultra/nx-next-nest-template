@@ -49,7 +49,6 @@ export default function App() {
   const [ website, setWebsite ] = useState("");
   const [ users, setUsers ] = useState([]);
 
-  console.log(fname)
 
   useEffect(() => {
     getUsers();
@@ -71,8 +70,6 @@ export default function App() {
     }
   }
 
-  console.log(users)
-
   async function createUser() {
     try {
         const { data, error } = await supabase
@@ -85,6 +82,7 @@ export default function App() {
             website: website
         })
         .single() //inserting only 1 user
+        console.log(data)
         if (error) throw error;
         window.location.reload() //reload page once user has been created
     } catch (error) {
@@ -107,20 +105,18 @@ export default function App() {
       </div>
       <div>
         <label>Age</label>
-        <input type="number" onChange={(e) => setLName(e.target.value)} {...register("age", { valueAsNumber: true })} />
+        <input {...register("age", { valueAsNumber: true })} onChange={(e) => setAge( parseInt(e.target.value) )} />
         {errors.age && <p>{errors.age.message}</p>}
       </div>
       <div>
         <label>Website (example: https://www.google.ca)</label>
-        <input {...register("website")} onChange={(e) => setLName(e.target.value)} />
+        <input {...register("website")} onChange={(e) => setWebsite(e.target.value)} />
         {errors.website && <p>{errors.website.message}</p>}
       </div>
       <Reset {...{ reset }} />
       <button onClick={() => createUser()}>Create Users in Supabase DB</button>
-      <input type="submit" />
       <div>
         {users.map((user) => (
-            // <p>First User</p>
             <UserCard user={user} />
         ))}
       </div>
