@@ -50,7 +50,7 @@ function UserCard(props) {
     }
 
     return (
-        <Card style={{width: "18rem"}}>
+        <Card style={{width: "10rem"}}>
             <Card.Body>
                 { editing == false ?
                     <>
